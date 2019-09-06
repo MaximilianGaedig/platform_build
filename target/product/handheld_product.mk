@@ -31,6 +31,7 @@ PRODUCT_PACKAGES += \
     Gallery2 \
     Music \
     OneTimeInitializer \
+    PdfViewer \
     preinstalled-packages-platform-handheld-product.xml \
     QuickSearchBox \
     SettingsIntelligence \
