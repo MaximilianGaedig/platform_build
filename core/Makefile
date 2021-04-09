@@ -4237,8 +4237,6 @@ endif
 INTERNAL_OTATOOLS_PACKAGE_FILES += \
   device/common/clear-factory-images-variables.sh \
   device/common/generate-factory-images-common.sh \
-  device/linaro/hikey/factory-images/generate-factory-images-hikey.sh \
-  device/linaro/hikey/factory-images/generate-factory-images-hikey960.sh
 
 INTERNAL_OTATOOLS_RELEASETOOLS := \
   $(sort $(shell find build/make/tools/releasetools -name "*.pyc" -prune -o \
