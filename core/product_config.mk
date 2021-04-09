@@ -370,9 +370,9 @@ endif
 
 $(KATI_obsolete_var OVERRIDE_PRODUCT_ENFORCE_PRODUCT_PARTITION_INTERFACE,Use PRODUCT_ENFORCE_PRODUCT_PARTITION_INTERFACE instead)
 
-PRODUCT_DEX_PREOPT_DEFAULT_COMPILER_FILTER := speed
-PRODUCT_DEX_PREOPT_BOOT_FLAGS := --compiler-filter=speed
-PRODUCT_DEX_PREOPT_DEFAULT_FLAGS := --compiler-filter=speed
+PRODUCT_DEX_PREOPT_DEFAULT_COMPILER_FILTER := everything
+PRODUCT_DEX_PREOPT_BOOT_FLAGS := --compiler-filter=everything
+PRODUCT_DEX_PREOPT_DEFAULT_FLAGS := --compiler-filter=everything
 
 define product-overrides-config
 $$(foreach rule,$$(PRODUCT_$(1)_OVERRIDES),\
