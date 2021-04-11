@@ -6,6 +6,8 @@
 TARGET_NO_BOOTLOADER := true
 TARGET_NO_RECOVERY := true
 
+BOARD_EXT4_SHARE_DUP_BLOCKS := true
+
 TARGET_USERIMAGES_USE_EXT4 := true
 
 # Mainline devices must have /system_ext, /vendor and /product partitions.
@@ -24,10 +26,6 @@ TARGET_USES_64_BIT_BINDER := true
 
 # 64 bit mediadrmserver
 TARGET_ENABLE_MEDIADRM_64 := true
-
-# Puts odex files on system_other, as well as causing dex files not to get
-# stripped from APKs.
-BOARD_USES_SYSTEM_OTHER_ODEX := true
 
 # Audio: must using XML format for Treblized devices
 USE_XML_AUDIO_POLICY_CONF := 1

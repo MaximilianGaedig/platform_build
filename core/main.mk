@@ -46,7 +46,7 @@ $(KATI_obsolete_var BUILD_NUMBER,See https://android.googlesource.com/platform/b
 $(BUILD_NUMBER_FILE):
 	touch $@
 
-DATE_FROM_FILE := date -d @$(BUILD_DATETIME_FROM_FILE)
+DATE_FROM_FILE := date -ud @$(BUILD_DATETIME_FROM_FILE)
 .KATI_READONLY := DATE_FROM_FILE
 
 # Pick a reasonable string to use to identify files.
@@ -250,6 +250,9 @@ endif
 ### between the build variants
 ###
 
+# Disable OpenGL preloading
+ADDITIONAL_BUILD_PROPERTIES += ro.zygote.disable_gl_preload=1
+
 is_sdk_build :=
 
 ifneq ($(filter sdk win_sdk sdk_addon,$(MAKECMDGOALS)),)
@@ -265,6 +268,8 @@ ifneq (,$(user_variant))
   # Target is secure in user builds.
   ADDITIONAL_DEFAULT_PROPERTIES += ro.secure=1
   ADDITIONAL_DEFAULT_PROPERTIES += security.perf_harden=1
+  ADDITIONAL_DEFAULT_PROPERTIES += ro.control_privapp_permissions=enforce
+  ADDITIONAL_DEFAULT_PROPERTIES += net.tethering.noprovisioning=true
 
   ifeq ($(user_variant),user)
     ADDITIONAL_DEFAULT_PROPERTIES += ro.adb.secure=1
