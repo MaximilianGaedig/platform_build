@@ -29,6 +29,7 @@ PRODUCT_PACKAGES += \
     DeskClock \
     ExactCalculator \
     Gallery2 \
+    GreenTooth \
     Music \
     OneTimeInitializer \
     PdfViewer \
@@ -36,6 +37,7 @@ PRODUCT_PACKAGES += \
     QuickSearchBox \
     SettingsIntelligence \
     TrichromeChrome \
+    UnifiedNlp \
     frameworks-base-overlays
 
 ifeq ($(LINEAGE_BUILD),)
