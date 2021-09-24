@@ -29,7 +29,7 @@ PRODUCT_PACKAGES += \
     DeskClock \
     ExactCalculator \
     Gallery2 \
-    LatinIME \
+    GreenTooth \
     Music \
     OneTimeInitializer \
     PdfViewer \
@@ -37,7 +37,13 @@ PRODUCT_PACKAGES += \
     QuickSearchBox \
     SettingsIntelligence \
     TrichromeChrome \
+    UnifiedNlp \
     frameworks-base-overlays
+
+ifeq ($(LINEAGE_BUILD),)
+PRODUCT_PACKAGES += \
+    LatinIME
+endif
 
 PRODUCT_PACKAGES_DEBUG += \
     frameworks-base-overlays-debug

@@ -250,6 +250,9 @@ endif
 ### between the build variants
 ###
 
+# Disable OpenGL preloading
+ADDITIONAL_BUILD_PROPERTIES += ro.zygote.disable_gl_preload=1
+
 is_sdk_build :=
 
 ifneq ($(filter sdk win_sdk sdk_addon,$(MAKECMDGOALS)),)
@@ -266,7 +269,6 @@ ifneq (,$(user_variant))
   ADDITIONAL_DEFAULT_PROPERTIES += ro.secure=1
   ADDITIONAL_DEFAULT_PROPERTIES += security.perf_harden=1
   ADDITIONAL_DEFAULT_PROPERTIES += ro.control_privapp_permissions=enforce
-  ADDITIONAL_DEFAULT_PROPERTIES += persist.security.deny_new_usb=dynamic
   ADDITIONAL_DEFAULT_PROPERTIES += net.tethering.noprovisioning=true
 
   ifeq ($(user_variant),user)
@@ -363,6 +365,10 @@ endif
 BUILD_WITHOUT_PV := true
 
 ADDITIONAL_BUILD_PROPERTIES += net.bt.name=Android
+
+# ------------------------------------------------------------
+# Include vendor specific additions to build properties
+-include vendor/lineage/build/core/main.mk
 
 # ------------------------------------------------------------
 # Define a function that, given a list of module tags, returns
@@ -1111,12 +1117,22 @@ endef
 # $(2): heading to print on failure
 define maybe-print-list-and-error
 $(if $(strip $(1)), \
-  $(warning $(2)) \
-  $(info Offending entries:) \
-  $(foreach e,$(sort $(1)),$(info    $(patsubst $(PRODUCT_OUT)/%,%,$(e)))) \
+  $(call maybe-print-list-and-warn,$(1),$(2)) \
   $(error Build failed) \
 )
 endef
+
+# Warns if the given list is non-empty, and prints it entries (stripping PRODUCT_OUT).
+# $(1): list of files to print
+# $(2): heading to print
+define maybe-print-list-and-warn
+$(if $(strip $(1)), \
+  $(warning $(2)) \
+  $(info Offending entries:) \
+  $(foreach e,$(sort $(1)),$(info    $(patsubst $(PRODUCT_OUT)/%,%,$(e)))) \
+)
+endef
+
 
 ifdef FULL_BUILD
   ifneq (true,$(ALLOW_MISSING_DEPENDENCIES))
@@ -1216,7 +1232,7 @@ $(call dist-for-goals,droidcore,$(CERTIFICATE_VIOLATION_MODULES_FILENAME))
       $(makefile) produces files outside its artifact path requirement. \
       Allowed paths are $(subst $(space),$(comma)$(space),$(addsuffix *,$(requirements)))) \
     $(eval unused_allowed := $(filter-out $(files),$(allowed_patterns))) \
-    $(call maybe-print-list-and-error,$(unused_allowed),$(makefile) includes redundant allowed entries in its artifact path requirement.) \
+    $(call maybe-print-list-and-warn,$(unused_allowed),$(makefile) includes redundant allowed entries in its artifact path requirement.) \
     $(eval ### Optionally verify that nothing else produces files inside this artifact path requirement.) \
     $(eval extra_files := $(filter-out $(files) $(HOST_OUT)/%,$(product_target_FILES))) \
     $(eval files_in_requirement := $(filter $(path_patterns),$(extra_files))) \
